@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: cream;
+  }
+  .calculator {
+    width: 380px;
+    margin: 100px auto;
+    background-color: grey;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .calculator input[type="button"] {
+    width: 70px;
+    height: 40px;
+    margin: 5px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: white;
+    transition: background-color 0.3s;
+  }
+  .calculator input[type="button"]:hover {
+    background-color: #e0e0e0;
+  }
+  .result {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 24px;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+  <div class="result" id="result">0</div>
+  <input type="button" value="1">
+  <input type="button" value="2">
+  <input type="button" value="3">
+  <input type="button" value="+" class="operator">
+   <input type="button" value="4">
+  <input type="button" value="5">
+  <input type="button" value="6">
+  <input type="button" value="-" class="operator">
+  <br>
+  <input type="button" value="7">
+  <input type="button" value="8">
+  <input type="button" value="9">
+  <input type="button" value="*" class="operator">
+  <br>
+  <input type="button" value="C" id="clear">
+  <input type="button" value="0">
+  <input type="button" value="=" id="equal" class="operator">
+  <input type="button" value="/" class="operator">
+  <br>
+
+</div>
+
+<script>
+  // Select elements
+  const result = document.getElementById("result");
+  const clear = document.getElementById("clear");
+  const equal = document.getElementById("equal");
+  const operators = document.querySelectorAll(".operator");
+  const numbers = document.querySelectorAll(".calculator input[type='button']:not(.operator)");
+
+  // Initialize result
+  let currentInput = '';
+
+  // Helper function to update result display
+  function updateResult() {
+    result.textContent = currentInput === '' ? '0' : currentInput;
+  }
+
+  // Event listener for numbers
+  numbers.forEach(number => {
+    number.addEventListener('click', () => {
+      currentInput += number.value;
+      updateResult();
+    });
+  });
+
+  // Event listener for operators
+  operators.forEach(operator => {
+    operator.addEventListener('click', () => {
+      if (operator.value === 'C') {
+        currentInput = '';
+      } else if (operator.value === '=') {
+        currentInput = evaluateExpression(currentInput);
+      } else {
+        currentInput += operator.value;
+      }
+      updateResult();
+    });
+  });
+
+  // Event listener for clear button
+  clear.addEventListener('click', () => {
+    currentInput = '';
+    updateResult();
+  });
+
+  // Function to evaluate expression
+  function evaluateExpression(expression) {
+    try {
+      return eval(expression);
+    } catch (error) {
+      return 'Error';
+    }
+  }
+</script>
+
+</body>
+</html>
